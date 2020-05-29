@@ -15,9 +15,6 @@ Component({
         previewImg:String,
         currentSkuCount:Cart.SKU_MIN_COUNT
     },
-// A 提拉米苏 10寸, 无规格
-    // B 提拉米苏 草莓味 8寸 10寸
-
     // sku 概念必须要有 规格
 
     observers: {
@@ -46,9 +43,10 @@ Component({
         },
 
         processHasSpec(spu) {
+
             const fenceGroup = new FenceGroup(spu)
+            //先提取规格值
             fenceGroup.initFences()
-            console.log(fenceGroup)
             const judger = new Judger(fenceGroup)
             this.data.judger = judger
             const defaultSku = fenceGroup.getDefaultSku()

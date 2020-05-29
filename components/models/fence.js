@@ -28,6 +28,7 @@ class Fence {
             if(existed){
                 return
             }
+            //cell 例如 : 金属灰
             const cell = new Cell(s)
             this.cells.push(cell)
         })
