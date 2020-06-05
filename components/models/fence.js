@@ -22,6 +22,7 @@ class Fence {
 
     _initCells() {
         this.specs.forEach(s => {
+            //去重 some:只有有符合条件的就会马上返回 every: 表达式都表达才返回
             const existed = this.cells.some(c=>{
                 return c.id === s.value_id
             })

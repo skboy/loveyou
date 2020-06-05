@@ -126,7 +126,7 @@ Component({
         onSelectCount(event) {
             const currentCount = event.detail.count
             this.data.currentSkuCount = currentCount
-            console.log(this.data.judger)
+
             if (this.data.noSpec){
                 this.setStockStatus(this.data.stock, currentCount)
             }else{
@@ -147,6 +147,7 @@ Component({
             cell.status = data.status
 
             const judger = this.data.judger
+            //改变cell状态
             judger.judge(cell,x,y)
             const skuIntact =judger.isSkuIntact()
             if(skuIntact){
@@ -155,6 +156,7 @@ Component({
                 this.setStockStatus(currentSku.stock,this.data.currentSkuCount)
             }
             this.bindTipData()
+            //每次点击cell都要重新渲染数据
             this.bindFenceGroupData(judger.fenceGroup)
             this.triggerSpecEvent()
         }
