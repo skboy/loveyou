@@ -36,18 +36,24 @@ class Judger {
         })
     }
 
+    //初始化 规格
     _initSkuPending() {
         const specsLength = this.fenceGroup.fences.length
+        //定义SkuPending长度
         this.skuPending = new SkuPending(specsLength)
+        //获取默认规格
         const defaultSku = this.fenceGroup.getDefaultSku()
         if (!defaultSku) {
             return
         }
+        //把默认规格插入skePending
         this.skuPending.init(defaultSku)
+        //把默认规格都选上
         this._initSelectedCell()
+        //这里执行 是因为 选择规格后 也要把不存在的选择置灰
         this.judge(null, null, null, true)
     }
-
+    //把默认规格都选上
     _initSelectedCell() {
         this.skuPending.pending.forEach(cell => {
             this.fenceGroup.setCellStatusById(cell.id, CellStatus.SELECTED)
@@ -79,7 +85,6 @@ class Judger {
         this.fenceGroup.eachCell((cell, x, y) => {
             //查找潜在路径
             const path = this._findPotentialPath(cell, x, y)
-            console.log(path)
             if (!path) {
                 return
             }
