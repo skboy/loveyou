@@ -36,7 +36,7 @@
 
 
 <l-popup content-align="bottom" show="{{showRealm}}">
-    <s-realm bind:specchange="onSpecChange" order-way="{{orderWay}}" spu="{{spu}}"></s-realm>
+    <s-realm bind:shopping="onShopping" bind:specchange="onSpecChange" order-way="{{orderWay}}" spu="{{spu}}"></s-realm>
 </l-popup>
 
 <s-tabbar class="tabbar"

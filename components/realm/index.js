@@ -7,13 +7,13 @@ import {Cart} from "../../models/cart";
 Component({
     properties: {
         spu: Object,
-        orderWay:String
+        orderWay: String
     },
 
     data: {
-        judger:Object,
-        previewImg:String,
-        currentSkuCount:Cart.SKU_MIN_COUNT
+        judger: Object,
+        previewImg: String,
+        currentSkuCount: Cart.SKU_MIN_COUNT
     },
     // sku 概念必须要有 规格
 
@@ -22,10 +22,9 @@ Component({
             if (!spu) {
                 return
             }
-            if(Spu.isNoSpec(spu)){
+            if (Spu.isNoSpec(spu)) {
                 this.processNoSpec(spu)
-            }
-            else{
+            } else {
                 this.processHasSpec(spu)
             }
             this.triggerSpecEvent()
@@ -34,12 +33,10 @@ Component({
 
     methods: {
         processNoSpec(spu) {
-            this.setData({
-                noSpec:true,
-                // skuIntact:
-            })
+            this.bindNoSpec(true)
             this.bindSkuData(spu.sku_list[0])
             this.setStockStatus(spu.sku_list[0].stock, this.data.currentSkuCount)
+
         },
 
         processHasSpec(spu) {
@@ -50,30 +47,29 @@ Component({
             const judger = new Judger(fenceGroup)
             this.data.judger = judger
             const defaultSku = fenceGroup.getDefaultSku()
-            if(defaultSku){
+            if (defaultSku) {
                 this.bindSkuData(defaultSku)
                 this.setStockStatus(defaultSku.stock, this.data.currentSkuCount)
-            }
-            else{
+            } else {
                 this.bindSpuData()
             }
+            this.bindNoSpec(false)
             this.bindTipData()
             this.bindFenceGroupData(fenceGroup)
         },
 
         triggerSpecEvent() {
             const noSpec = Spu.isNoSpec(this.properties.spu)
-            if(noSpec){
-                this.triggerEvent('specchange',{
+            if (noSpec) {
+                this.triggerEvent('specchange', {
                     noSpec
                 })
-            }
-            else{
-                this.triggerEvent('specchange',{
-                    noSpec:Spu.isNoSpec(this.properties.spu),
-                    skuIntact:this.data.judger.isSkuIntact(),
-                    currentValues:this.data.judger.getCurrentValues(),
-                    missingKeys:this.data.judger.getMissingKeys()
+            } else {
+                this.triggerEvent('specchange', {
+                    noSpec: Spu.isNoSpec(this.properties.spu),
+                    skuIntact: this.data.judger.isSkuIntact(),
+                    currentValues: this.data.judger.getCurrentValues(),
+                    missingKeys: this.data.judger.getMissingKeys()
                 })
             }
         },
@@ -81,41 +77,47 @@ Component({
         bindSpuData() {
             const spu = this.properties.spu
             this.setData({
-                previewImg:spu.img,
-                title:spu.title,
-                price:spu.price,
-                discountPrice:spu.discount_price,
+                previewImg: spu.img,
+                title: spu.title,
+                price: spu.price,
+                discountPrice: spu.discount_price,
             })
         },
 
+        bindNoSpec(value) {
+            this.setData({
+                noSpec: value,
+                // skuIntact:
+            })
+        },
         bindSkuData(sku) {
             this.setData({
-                previewImg:sku.img,
-                title:sku.title,
-                price:sku.price,
-                discountPrice:sku.discount_price,
-                stock:sku.stock,
+                previewImg: sku.img,
+                title: sku.title,
+                price: sku.price,
+                discountPrice: sku.discount_price,
+                stock: sku.stock,
 
             })
         },
 
         bindTipData() {
             this.setData({
-                skuIntact:this.data.judger.isSkuIntact(),
-                currentValues:this.data.judger.getCurrentValues(),
-                missingKeys:this.data.judger.getMissingKeys()
+                skuIntact: this.data.judger.isSkuIntact(),
+                currentValues: this.data.judger.getCurrentValues(),
+                missingKeys: this.data.judger.getMissingKeys()
             })
         },
 
         bindFenceGroupData(fenceGroup) {
             this.setData({
-                fences:fenceGroup.fences,
+                fences: fenceGroup.fences,
             })
         },
 
         setStockStatus(stock, currentCount) {
             this.setData({
-                outStock:this.isOutOfStock(stock, currentCount)
+                outStock: this.isOutOfStock(stock, currentCount)
             })
         },
 
@@ -127,10 +129,10 @@ Component({
             const currentCount = event.detail.count
             this.data.currentSkuCount = currentCount
 
-            if (this.data.noSpec){
+            if (this.data.noSpec) {
                 this.setStockStatus(this.data.stock, currentCount)
-            }else{
-                if(this.data.judger.isSkuIntact()){
+            } else {
+                if (this.data.judger.isSkuIntact()) {
                     const sku = this.data.judger.getDeterminateSku()
                     this.setStockStatus(sku.stock, currentCount)
                 }
@@ -156,12 +158,57 @@ Component({
                 //获取当前完整的sku 信息
                 const currentSku = judger.getDeterminateSku()
                 this.bindSkuData(currentSku)
-                this.setStockStatus(currentSku.stock,this.data.currentSkuCount)
+                this.setStockStatus(currentSku.stock, this.data.currentSkuCount)
             }
             this.bindTipData()
             //每次点击cell都要重新渲染数据
             this.bindFenceGroupData(judger.fenceGroup)
             this.triggerSpecEvent()
+        },
+
+
+        onBuyOrCart(event) {
+            if (this.data.noSpec) {
+                this.shoppingNoSpec()
+            }else{
+                this.shoppingVarious()
+            }
+        },
+        //当有规格时购物
+        shoppingVarious(){
+            const judger = this.data.judger
+            const skuIntact = judger.isSkuIntact()
+            if (!skuIntact){
+                const missKeys=judger.getMissingKeys()
+                wx.showToast({
+                    icon:"none",
+                    title:`请选择: ${missKeys.join(', ')}`,
+                    duration:3000
+                })
+                return
+            }
+            this._triggerShoppingEvent(judger.getDeterminateSku())
+        },
+        //当无规格时购物
+        shoppingNoSpec(){
+            this._triggerShoppingEvent(this.getNoSpecSKu())
+        },
+
+
+        //获取无规格的sku
+        getNoSpecSKu() {
+            return this.properties.spu.sku_list[0]
+        },
+
+        //抛出加入购物车或者立即购买
+        _triggerShoppingEvent(sku) {
+            this.triggerEvent('shopping', {
+                orderWay: this.properties.orderWay,
+                spuId: this.properties.spu.id,
+                sku: sku,
+                skuCount: this.data.currentSkuCount,
+
+            })
         }
     }
 })

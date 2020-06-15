@@ -58,6 +58,10 @@ Page({
         })
     },
 
+    onShopping(event){
+        const chosenSku= event.detail.sku
+        const skuCount = event.detail.skuCount
+    },
     onReady: function () {
 
     },

@@ -44,15 +44,15 @@
             <s-fence x="{{index}}" bind:celltap="onCellTap" fence="{{item}}"></s-fence>
         </block>
         <view class="counter-container">
-            <text>购买数量</text>
+            <text class="counter-container">购买数量</text>
             <s-counter bind:lintap="onSelectCount"></s-counter>
         </view>
     </view>
 </scroll-view>
 
-<view wx:if="{{!outStock}}" class="bottom-btn">
-    <text wx:if="{{orderWay==='cart'}}">加入购物车</text>
-    <text wx:else>立即购买</text>
+<view wx:if="{{!outStock}}" bind:tap="onBuyOrCart"class="bottom-btn">
+    <text wx:if="{{orderWay==='cart'}}" class="bottom-btn-text">加入购物车</text>
+    <text wx:else class="bottom-btn-text">立即购买</text>
 </view>
 
 <view wx:else class="bottom-btn out-stock">
