@@ -17,13 +17,17 @@ class SkuPending {
         }
     }
 
+
     getCurrentSpecValues() {
         const values = this.pending.map(cell => {
             return cell ? cell.spec.value : null
         })
+        /**
+         * ["金属灰", "七龙珠", "小号 S"]
+         */
         return values
     }
-
+    //缺失的规格名
     getMissingSpecKeysIndex() {
         const keysIndex = []
         for (let i = 0; i < this.size; i++) {
@@ -31,6 +35,9 @@ class SkuPending {
                 keysIndex.push(i)
             }
         }
+        /**
+         *  [0, 1]
+         */
         return keysIndex
     }
 
@@ -43,7 +50,9 @@ class SkuPending {
         return joiner.getStr()
     }
 
+    //判断用户是否选择了完整的sku
     isIntact() {
+        //不能 this.size===this.pending.length因为有null和undefined
         for (let i = 0; i < this.size; i++) {
             if (this._isEmptyPart(i)) {
                 return false

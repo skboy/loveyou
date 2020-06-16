@@ -29,6 +29,7 @@ class Judger {
         return this.skuPending.getCurrentSpecValues()
     }
 
+    //缺失的规格名
     getMissingKeys() {
         const missingKeysIndex = this.skuPending.getMissingSpecKeysIndex()
         return missingKeysIndex.map(i => {
@@ -97,6 +98,7 @@ class Judger {
         })
     }
 
+    //获取当前完整的sku 信息
     getDeterminateSku() {
         const code = this.skuPending.getSkuCode()
         const sku = this.fenceGroup.getSku(code)

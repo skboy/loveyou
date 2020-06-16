@@ -57,8 +57,6 @@ Page({
         const rootId = event.detail.activeKey
         const currentSubs = this.data.categories.getSubs(rootId)
         const currentRoot = this.data.categories.getRoot(rootId)
-        console.log(currentSubs)
-
         this.setData({
             currentSubs,
             currentBannerImg:currentRoot.img

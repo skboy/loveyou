@@ -143,14 +143,17 @@ Component({
             const x = event.detail.x
             const y = event.detail.y
 
+            //重新实例化的cell 状态是waiting 所以需要 cell.status = data.status
             const cell = new Cell(data.spec)
             cell.status = data.status
 
             const judger = this.data.judger
             //改变cell状态
             judger.judge(cell,x,y)
+            //判断是否选择完整的sku
             const skuIntact =judger.isSkuIntact()
             if(skuIntact){
+                //获取当前完整的sku 信息
                 const currentSku = judger.getDeterminateSku()
                 this.bindSkuData(currentSku)
                 this.setStockStatus(currentSku.stock,this.data.currentSkuCount)
