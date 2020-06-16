@@ -1,0 +1,6 @@
+<view slot="left" class="container">
+    <view></view>
+    <view>
+
+    </view>
+</view>

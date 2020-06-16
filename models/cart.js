@@ -15,6 +15,18 @@ class Cart {
         return this
     }
 
+    getAllCartItemFromLocal() {
+        return this._getCartData()
+    }
+
+    isEmpty() {
+        const cartData = this._getCartData()
+        return cartData.items.length === 0;
+    }
+    //获取购物车数量
+    getCartItemCount() {
+        return this._getCartData().items.length
+    }
     //添加进购物车
     addItem(newItem) {
 
@@ -27,92 +39,102 @@ class Cart {
         //刷新缓存
         this._refreshStorage()
     }
+
     //刷新缓存
-    _refreshStorage(){
-        wx.setStorageSync(Cart.STORAGE_KEY,this._cartData)
+    _refreshStorage() {
+        wx.setStorageSync(Cart.STORAGE_KEY, this._cartData)
     }
+
     //把item push进去
     _pushItem(newItem) {
         //从缓存中获取items
         const cartData = this._getCartData()
         //查询缓存里是否存在这个item
-        const oldItem =this.findEqualItem(newItem.skuId)
-        if(!oldItem){
+        const oldItem = this.findEqualItem(newItem.skuId)
+        if (!oldItem) {
             //unshift插入到数组第一个 push是插入到末尾
-            cartData.items.unshift()
-        }else{
+            cartData.items.unshift(newItem)
+        } else {
             //item数量累加
-            this.combineItems(oldItem,newItem)
+            this.combineItems(oldItem, newItem)
         }
     }
+
     //把item移除购物车
-    removeItem(skuId){
+    removeItem(skuId) {
         //查询这个skuId对应item数组的下标
-        const oldItemIndex =this._findEqualItemIndex(skuId)
+        const oldItemIndex = this._findEqualItemIndex(skuId)
         //从缓存中获取items
         const cartData = this._getCartData()
         //splice删除数组中的元素
-        cartData.items.splice(oldItemIndex,1)
+        cartData.items.splice(oldItemIndex, 1)
         //刷新缓存
         this._refreshStorage()
     }
+
     //查询缓存里是否存在这个item
-    findEqualItem(skuId){
-        let oldItem  = null
+    findEqualItem(skuId) {
+        let oldItem = null
         //从缓存中获取items
         const items = this._getCartData().items
-        for(let i =0 ;i<items.length;i++){
+        for (let i = 0; i < items.length; i++) {
             //判断skuId和items[i]的skuId是否相等
-            if (this._isEqualItem(items[i],skuId)){
-                oldItem= items[i]
+            if (this._isEqualItem(items[i], skuId)) {
+                oldItem = items[i]
                 break
             }
         }
         return oldItem
 
     }
+
     //判断skuId和oldItem的skuId是否相等
-    _isEqualItem(oldItem,skuId){
-        return oldItem.skuId ===skuId
+    _isEqualItem(oldItem, skuId) {
+        return oldItem.skuId === skuId
     }
+
     //寻找这个skuId在items数组的里 下标
-    _findEqualItemIndex(skuId){
+    _findEqualItemIndex(skuId) {
         //从缓存中获取items
-        const carData =this._getCartData()
-        return carData.items.findIndex(item=>{
-            return item.skuId==skuId
+        const carData = this._getCartData()
+        return carData.items.findIndex(item => {
+            return item.skuId == skuId
         })
     }
-    //item的count累加
-    combineItems(oldItem,newItem){
-        this._plusCount(oldItem,newItem.count)
-    }
-    _plusCount(item,count){
 
-        item.count+=count
-        if (item.count>=Cart.SKU_MAX_COUNT){
-            item.count =Cart.SKU_MAX_COUNT
+    //item的count累加
+    combineItems(oldItem, newItem) {
+        this._plusCount(oldItem, newItem.count)
+    }
+
+    _plusCount(item, count) {
+
+        item.count += count
+        if (item.count >= Cart.SKU_MAX_COUNT) {
+            item.count = Cart.SKU_MAX_COUNT
         }
     }
+
     //从缓存中获取items
     _getCartData() {
 
-        if (this._cartData!==null){
+        if (this._cartData !== null) {
             return this._cartData
         }
         let cartData = wx.getStorageSync(Cart.STORAGE_KEY)
-        if(!cartData){
-            cartData= this._initCartDataStorage()
+        if (!cartData) {
+            cartData = this._initCartDataStorage()
         }
-        this._cartData=cartData
+        this._cartData = cartData
         return cartData
     }
+
     //初始化cartData
-    _initCartDataStorage(){
-        const cartData ={
-            items:[]
+    _initCartDataStorage() {
+        const cartData = {
+            items: []
         }
-        wx.setStorageSync(Cart.STORAGE_KEY,cartData)
+        wx.setStorageSync(Cart.STORAGE_KEY, cartData)
         return cartData
     }
 

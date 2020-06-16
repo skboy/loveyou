@@ -3,11 +3,14 @@ import {ShoppingWay} from "../../core/enum";
 import {SaleExplain} from "../../models/sale-explain";
 import {getSystemSize, getWindowHeightRpx} from "../../utils/system";
 import {px2rpx} from "../../miniprogram_npm/lin-ui/utils/util";
+import {Cart} from "../../models/cart";
+import {CartItem} from "../../models/cart-item";
 
 Page({
 
     data: {
         showRealm:false,
+        cartItemCount:0,
         explain:Object,
         h:Number
     },
@@ -23,6 +26,7 @@ Page({
             explain,
             h:h
         })
+        this.updateCartItemCount()
 
     },
 
@@ -61,6 +65,19 @@ Page({
     onShopping(event){
         const chosenSku= event.detail.sku
         const skuCount = event.detail.skuCount
+        if(event.detail.orderWay===ShoppingWay.CART){
+            const cart = new Cart()
+            const cartItem =new CartItem(chosenSku,skuCount)
+            cart.addItem(cartItem)
+            this.updateCartItemCount()
+        }
+    },
+    updateCartItemCount(){
+        const cart =new Cart();
+        this.setData({
+            cartItemCount:cart.getCartItemCount(),
+            showRealm:false
+        })
     },
     onReady: function () {
 

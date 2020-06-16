@@ -23,3 +23,6 @@ page{
 .l-icon-home:before{
   content:"\e62a"
 }
+.l-icon-check:before {
+  content: "\e60d";
+}
