@@ -18,12 +18,12 @@ Page({
     onLoad: async function (options) {
         const pid = options.pid
         const spu = await Spu.getDetail(pid)
-        const explain=await SaleExplain.getFixed()
+       // const explain=await SaleExplain.getFixed()
         const windowHeight =await getWindowHeightRpx()
         const h= windowHeight - 100
         this.setData({
             spu,
-            explain,
+        //    explain,
             h:h
         })
         this.updateCartItemCount()

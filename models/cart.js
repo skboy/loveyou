@@ -19,14 +19,24 @@ class Cart {
         return this._getCartData()
     }
 
+    static isSoldOut(item) {
+        return item.sku.stock === 0
+
+    }
+    static isOnline(item) {
+        return item.sku.online
+
+    }
     isEmpty() {
         const cartData = this._getCartData()
         return cartData.items.length === 0;
     }
+
     //获取购物车数量
     getCartItemCount() {
         return this._getCartData().items.length
     }
+
     //添加进购物车
     addItem(newItem) {
 
@@ -71,7 +81,22 @@ class Cart {
         //刷新缓存
         this._refreshStorage()
     }
-
+    replaceItemCount(skuId, newCount) {
+        const oldItem = this.findEqualItem(skuId)
+        if (!oldItem) {
+            console.error('异常情况，更新CartItem中的数量不应当找不到相应数据')
+            return
+        }
+        if (newCount < 1) {
+            console.error('异常情况，CartItem的Count不可能小于1')
+            return
+        }
+        oldItem.count = newCount
+        if (oldItem.count >= Cart.SKU_MAX_COUNT) {
+            oldItem.count = Cart.SKU_MAX_COUNT
+        }
+        this._refreshStorage()
+    }
     //查询缓存里是否存在这个item
     findEqualItem(skuId) {
         let oldItem = null

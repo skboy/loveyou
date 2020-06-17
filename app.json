@@ -56,6 +56,7 @@
     "l-tag": "/miniprogram_npm/lin-ui/tag/index",
     "l-loadmore": "/miniprogram_npm/lin-ui/loadmore/index",
     "l-loading": "/miniprogram_npm/lin-ui/loading/index",
+    "l-slide-view": "/miniprogram_npm/lin-ui/slide-view/index",
     "s-spu-preview": "/components/spu-preview/index",
     "s-spu-preview-r": "/components/spu-preview-r/index",
     "s-empty": "/components/empty/index",
