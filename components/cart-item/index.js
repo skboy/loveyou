@@ -48,12 +48,23 @@ Component({
      * 组件的方法列表
      */
     methods: {
-         onSelectCount(event) {
-           let newCount = event.detail.count
-           console.log(newCount)
-           let cart;
-           cart.replaceItemCount(this.properties.cartItem.skuId, newCount)
-           this.triggerEvent("countfloat")
-         }
+        onDelete(event) {
+            const skuId = this.properties.cartItem.sku.id
+            const cart = new Cart()
+            cart.removeItem(skuId)
+            this.setData({
+                cartItem:null
+            })
+            this.triggerSpecEvent('itemdelete',{
+                skuId
+            })
+        },
+        onSelectCount(event) {
+            let newCount = event.detail.count
+            console.log(newCount)
+            let cart;
+            cart.replaceItemCount(this.properties.cartItem.skuId, newCount)
+            this.triggerEvent("countfloat")
+        }
     }
 })
