@@ -1,7 +1,7 @@
 // components/cart-item/index.js
 import {parseSpecValue} from "../../utils/sku";
 import {Cart} from "../../models/cart";
-
+const cart = new Cart()
 Component({
     /**
      * 组件的属性列表
@@ -59,10 +59,15 @@ Component({
                 skuId
             })
         },
+        checkedItem(event) {
+            const checked = event.detail.checked
+            cart.checkItem(this.properties.cartItem.skuId)
+            this.properties.cartItem.checked = checked
+            this.triggerEvent('itemcheck', {})
+        },
         onSelectCount(event) {
             let newCount = event.detail.count
             console.log(newCount)
-            let cart;
             cart.replaceItemCount(this.properties.cartItem.skuId, newCount)
             this.triggerEvent("countfloat")
         }

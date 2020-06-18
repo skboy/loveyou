@@ -1,6 +1,7 @@
 // pages/cart/cart.js
 import {Cart} from "../../models/cart";
 
+const cart = new Cart()
 Page({
 
     /**
@@ -8,7 +9,8 @@ Page({
      */
     data: {
         cartItems: [],
-        isEmpty: false
+        isEmpty: false,
+        allChecked: false
     },
 
     /**
@@ -23,7 +25,6 @@ Page({
      */
     onShow: function () {
 
-        const cart = new Cart()
         const cartItems = cart.getAllCartItemFromLocal().items;
         if (cart.isEmpty()) {
             this.empty()
@@ -32,7 +33,19 @@ Page({
         this.setData({
             cartItems
         })
+        //是否为空
         this.noEmpty()
+        //是否全选
+        this.isAllCheck()
+
+    },
+    isAllCheck() {
+        const allChecked = cart.isAllCheck()
+        console.log(allChecked)
+        this.setData({
+            allChecked
+        })
+
 
     },
     empty() {

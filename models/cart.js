@@ -1,3 +1,5 @@
+import {format} from "../miniprogram_npm/lin-ui/common/async-validator/util";
+
 class Cart {
     static SKU_MIN_COUNT = 1
     static SKU_MAX_COUNT = 999
@@ -19,14 +21,30 @@ class Cart {
         return this._getCartData()
     }
 
+    isAllCheck() {
+        let allChecked = true
+        const cartItems = this._getCartData().items
+        for (let item of cartItems) {
+            if (!item.checked) {
+                allChecked = false
+                break
+            }
+        }
+        return allChecked
+    }
+
+    //胖多是否售罄
     static isSoldOut(item) {
         return item.sku.stock === 0
 
     }
+
+    //判断是否下架
     static isOnline(item) {
         return item.sku.online
 
     }
+
     isEmpty() {
         const cartData = this._getCartData()
         return cartData.items.length === 0;
@@ -81,6 +99,7 @@ class Cart {
         //刷新缓存
         this._refreshStorage()
     }
+
     replaceItemCount(skuId, newCount) {
         const oldItem = this.findEqualItem(skuId)
         if (!oldItem) {
@@ -97,6 +116,7 @@ class Cart {
         }
         this._refreshStorage()
     }
+
     //查询缓存里是否存在这个item
     findEqualItem(skuId) {
         let oldItem = null
@@ -111,6 +131,13 @@ class Cart {
         }
         return oldItem
 
+    }
+
+    //改变购物车勾选状态
+    checkItem(skuId) {
+        const oldItem = this.findEqualItem(skuId)
+        oldItem.checked = !oldItem.checked
+        this._refreshStorage()
     }
 
     //判断skuId和oldItem的skuId是否相等
