@@ -33,6 +33,13 @@ class Cart {
         return allChecked
     }
 
+    checkAll(checked){
+        const cartData=this._getCartData()
+        cartData.items.forEach(item=>{
+            item.checked=checked
+        })
+        this._refreshStorage()
+    }
     //胖多是否售罄
     static isSoldOut(item) {
         return item.sku.stock === 0

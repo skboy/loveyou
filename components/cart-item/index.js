@@ -55,7 +55,7 @@ Component({
             this.setData({
                 cartItem:null
             })
-            this.triggerSpecEvent('itemdelete',{
+            this.triggerEvent('itemdelete',{
                 skuId
             })
         },
