@@ -1,5 +1,6 @@
 // pages/cart/cart.js
 import {Cart} from "../../models/cart";
+import {Caculator} from "../../models/caculator";
 
 const cart = new Cart()
 Page({
@@ -10,7 +11,9 @@ Page({
     data: {
         cartItems: [],
         isEmpty: false,
-        allChecked: false
+        allChecked: false,
+        totalPrice:0,
+        totalSkuCount:0
     },
 
     /**
@@ -37,8 +40,28 @@ Page({
         this.noEmpty()
         //是否全选
         this.isAllCheck()
+        //计算购物车价格
+        this.refreshCartData()
 
     },
+    //计算购物车价格
+    refreshCartData(){
+        const cartItems=cart.getCheckedItem()
+        const calculator =new Caculator(cartItems)
+        calculator.calc()
+        this.setCalcData(calculator)
+    },
+
+    //数据绑定购物车价格
+    setCalcData(calculator){
+        const totalPrice=calculator.getTotalPrice()
+        const totalSkuCount= calculator.getTotalSkuCount()
+        this.setData({
+            totalPrice,
+            totalSkuCount
+        })
+    },
+    //判断是否全选
     isAllCheck() {
         const allChecked = cart.isAllCheck()
         console.log(allChecked)

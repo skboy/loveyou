@@ -21,6 +21,25 @@ class Cart {
         return this._getCartData()
     }
 
+    //获取已经勾选的cartItem
+    getCheckedItem(){
+        const cartItems =this._getCartData().items
+        const checkedCartItems=[]
+        cartItems.forEach(item=>{
+            if (item.checked){
+                checkedCartItems.push(item)
+            }
+        })
+        return checkedCartItems
+
+    }
+    //改变购物车勾选状态
+    checkItem(skuId) {
+        const oldItem = this.findEqualItem(skuId)
+        oldItem.checked = !oldItem.checked
+        this._refreshStorage()
+    }
+    //判断是否全选
     isAllCheck() {
         let allChecked = true
         const cartItems = this._getCartData().items
@@ -133,12 +152,7 @@ class Cart {
 
     }
 
-    //改变购物车勾选状态
-    checkItem(skuId) {
-        const oldItem = this.findEqualItem(skuId)
-        oldItem.checked = !oldItem.checked
-        this._refreshStorage()
-    }
+
 
     //判断skuId和oldItem的skuId是否相等
     _isEqualItem(oldItem, skuId) {
