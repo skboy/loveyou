@@ -68,6 +68,17 @@ Page({
         if(event.detail.orderWay===ShoppingWay.CART){
             const cart = new Cart()
             const cartItem =new CartItem(chosenSku,skuCount)
+            const isAdd= cart.isBeyondStock(cartItem)
+            if(!isAdd){
+                const oldItem=cart.findEqualItem(chosenSku.id)
+                wx.showToast({
+                    icon: "none",
+                    duration: 3000,
+                    title: `购物车已存在${oldItem.count}件商品,库存不足`
+                })
+                return
+            }
+            //这里没判断购物车里这个sku的数量
             cart.addItem(cartItem)
             this.updateCartItemCount()
         }

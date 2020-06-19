@@ -1,3 +1,5 @@
+import {accAdd, accMultiply} from "../utils/number";
+
 class Caculator {
 
     totalPrice = 0
@@ -15,21 +17,23 @@ class Caculator {
         })
     }
 
-    getTotalPrice(){
+    getTotalPrice() {
         return this.totalPrice
     }
-    getTotalSkuCount(){
+
+    getTotalSkuCount() {
         return this.totalSkuCount
     }
+
     push(cartItem) {
         let partTotalPrice = 0
         if (cartItem.sku.discount_price) {
-            partTotalPrice = cartItem.count * cartItem.sku.discount_price
+            partTotalPrice = accMultiply(cartItem.count, cartItem.sku.discount_price)
         } else {
-            partTotalPrice = cartItem.count * cartItem.sku.price
+            partTotalPrice = accMultiply(cartItem.count, cartItem.sku.price)
         }
-        this.totalPrice += partTotalPrice
-        this.totalSkuCount+=cartItem.count
+        this.totalPrice = accAdd(partTotalPrice, this.totalPrice)
+        this.totalSkuCount += cartItem.count
     }
 }
 

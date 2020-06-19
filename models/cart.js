@@ -1,4 +1,5 @@
 import {format} from "../miniprogram_npm/lin-ui/common/async-validator/util";
+import {Sku} from "./sku";
 
 class Cart {
     static SKU_MIN_COUNT = 1
@@ -20,7 +21,25 @@ class Cart {
     getAllCartItemFromLocal() {
         return this._getCartData()
     }
-
+    //同步服务器数据
+    async getAllSkuFromServer() {
+        const cartData = this._getCartData()
+        if (cartData.items.length === 0) {
+            return null
+        }
+        const skuIds = this.getSkuIds()
+        const serverData = await Sku.getSkusByIds(skuIds)
+        this._refreshByServerData(serverData)
+        this._refreshStorage()
+        return this._getCartData()
+    }
+    getSkuIds(){
+        const cartData=this._getCartData()
+        if(cartData.items.length===0){
+            return []
+        }
+        return cartData.items.map(item=> item.skuId)
+    }
     //获取已经勾选的cartItem
     getCheckedItem(){
         const cartItems =this._getCartData().items
@@ -65,6 +84,20 @@ class Cart {
 
     }
 
+    //检查购物车数量加上新加的数量是否超过库存
+    isBeyondStock(cartItem){
+        const oldItem = this.findEqualItem(cartItem.skuId)
+        if(!oldItem){
+            return true
+        }
+        let totalCount=oldItem.count+cartItem.count
+        if (totalCount>cartItem.sku.stock){
+            return false
+        }else{
+            return true
+        }
+
+    }
     //判断是否下架
     static isOnline(item) {
         return item.sku.online
@@ -125,7 +158,28 @@ class Cart {
         //刷新缓存
         this._refreshStorage()
     }
-
+    //更新服务器数据
+    _refreshByServerData(serverData){
+        const cartData = this._getCartData()
+        cartData.items.forEach(item => {
+            this._setLatestCartItem(item, serverData)
+        })
+    }
+    _setLatestCartItem(item, serverData) {
+        //判断下架用的
+        let removed = true
+        for (let sku of serverData) {
+            if (sku.id === item.skuId) {
+                removed = false
+                item.sku = sku
+                break
+            }
+        }
+        if (removed) {
+            item.sku.online = false
+        }
+    }
+    //更新item的数量
     replaceItemCount(skuId, newCount) {
         const oldItem = this.findEqualItem(skuId)
         if (!oldItem) {

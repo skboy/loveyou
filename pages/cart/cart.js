@@ -19,15 +19,20 @@ Page({
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function (options) {
-
+    async onLoad(options) {
+        const cartData = await cart.getAllSkuFromServer()
+        if(cartData){
+            this.setData({
+                cartItems: cartData.items
+            })
+        }
+        //新鲜度
     },
 
     /**
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-
         const cartItems = cart.getAllCartItemFromLocal().items;
         if (cart.isEmpty()) {
             this.empty()
@@ -52,6 +57,10 @@ Page({
         this.setCalcData(calculator)
     },
 
+    //item数量事件
+    onCountFloat(event){
+        this.refreshCartData()
+    },
     //数据绑定购物车价格
     setCalcData(calculator){
         const totalPrice=calculator.getTotalPrice()
@@ -64,18 +73,23 @@ Page({
     //判断是否全选
     isAllCheck() {
         const allChecked = cart.isAllCheck()
-        console.log(allChecked)
         this.setData({
             allChecked
         })
     },
+    //单选
     onSingleCheck(event){
         this.isAllCheck()
+        //计算购物车价格
+        this.refreshCartData()
     },
+    //单个删除
     onDeleteItem(event){
         this.isAllCheck()
-
+        //计算购物车价格
+        this.refreshCartData()
     },
+    //全选的勾选
     onCheckAll(event){
         console.log(event)
         const checked =event.detail.checked
@@ -83,6 +97,8 @@ Page({
         this.setData({
             cartItems:this.data.cartItems
         })
+        //计算购物车价格
+        this.refreshCartData()
     },
     empty() {
         this.setData({
