@@ -68,8 +68,21 @@ Page({
         this.setData({
             allChecked
         })
+    },
+    onSingleCheck(event){
+        this.isAllCheck()
+    },
+    onDeleteItem(event){
+        this.isAllCheck()
 
-
+    },
+    onCheckAll(event){
+        console.log(event)
+        const checked =event.detail.checked
+        cart.checkAll(checked)
+        this.setData({
+            cartItems:this.data.cartItems
+        })
     },
     empty() {
         this.setData({

@@ -1,7 +1,8 @@
 <view wx:if="{{!isEmpty}}" class="container">
     <block wx:for="{{cartItems}}" wx:key="index">
-        <s-cart-item bind:overflow="onOverflow" bind:itemdelete="onDeleteItem"
-                     bind:countfloat="onCountFloat" bind:itemcheck="onSingleCheck"
+        <s-cart-item  bind:itemdelete="onDeleteItem"
+                     bind:countfloat="onCountFloat"
+                      bind:itemcheck="onSingleCheck"
                      cart-item="{{item}}">
         </s-cart-item>
     </block>
