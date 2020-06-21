@@ -1,83 +1,84 @@
 /* components/cart/index.wxss */
-page{
+page {
     background-color: #f3f4f6;
 }
-.container{
+
+.container {
     box-sizing: border-box;
-    display:flex;
-    flex-direction:column;
+    display: flex;
+    flex-direction: column;
     width: 100%;
     background-color: #ffffff;
-    min-height:300rpx;
+    min-height: 300rpx;
 }
 
 
-.total-container{
+.total-container {
     box-sizing: border-box;
     width: 100%;
     height: 88rpx;
-    background:rgba(255,255,255,1);
-    box-shadow:0px 0px 4px 0px rgba(210,210,210,0.5);
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0px 0px 4px 0px rgba(210, 210, 210, 0.5);
     position: fixed;
     bottom: 0;
-    padding-left:30rpx;
-    display:flex;
-    flex-direction:row;
+    padding-left: 30rpx;
+    display: flex;
+    flex-direction: row;
     justify-content: space-between;
     z-index: 99;
 }
 
-.data-container{
-    display:flex;
+.data-container {
+    display: flex;
     flex: 1 1 auto;
-    flex-direction:row;
+    flex-direction: row;
     align-items: center;
     justify-content: space-between;
 }
 
-.checkbox-container{
-    display:flex;
-    flex-direction:row;
-    align-items:center;
-}
-
-.checkbox-container > text{
-    margin-left: 30rpx;
-    color: #333333;
-    font-size:24rpx;
-}
-
-.price-container{
-    display:flex;
-    flex-direction:row;
+.checkbox-container {
+    display: flex;
+    flex-direction: row;
     align-items: center;
 }
 
-.price-container > text{
+.checkbox-container > text {
+    margin-left: 30rpx;
+    color: #333333;
+    font-size: 24rpx;
+}
+
+.price-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.price-container > text {
     color: #333333;
     font-size: 28rpx;
-    margin-right:24rpx;
+    margin-right: 24rpx;
 }
 
 
-.settlement-btn{
+.settlement-btn {
     width: 200rpx;
     height: 100%;
     background-color: #157658;
     margin-left: 24rpx;
-    display:flex;
-    flex-direction:row;
-    align-items:center;
-    justify-content:center;
-    font-size:28rpx;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-size: 28rpx;
     color: #ffffff;
 }
 
-.settlement-btn > text{
+.settlement-btn > text {
     /*width: 90%;*/
     max-width: 190rpx;
     overflow: hidden;
-    text-overflow:ellipsis;
+    text-overflow: ellipsis;
     white-space: nowrap;
 
     /*display: -webkit-box;*/
@@ -88,45 +89,45 @@ page{
 }
 
 
-.status-btn{
+.status-btn {
     border-radius: 1rpx !important;
     background-color: #157658 !important;
 }
 
-.disabled{
+.disabled {
     opacity: 0.5;
 }
 
-.empty-container{
-    display:flex;
-    flex-direction:row;
-    align-items:center;
-    justify-content:center;
+.empty-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
     width: 100%;
-    height:800rpx;
+    height: 800rpx;
     background-color: #f3f4f6;
 }
 
-.for-you-container{
+.for-you-container {
     width: 100%;
-    display:flex;
-    flex-direction:column;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
 }
 
-.title{
-    margin-top:10rpx;
+.title {
+    margin-top: 10rpx;
     height: 100rpx;
     background-color: #ffffff;
-    display:flex;
-    flex-direction:row;
-    align-items:center;
-    justify-content:center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
     font-size: 24rpx;
     color: #333333;
 }
 
-.for-you-spu{
+.for-you-spu {
     background-color: #ffffff;
     margin-top: 10rpx;
     padding-top: 30rpx;
@@ -135,16 +136,33 @@ page{
     align-items: center;
 }
 
-.logo-container{
-    margin-top:50rpx;
+.logo-container {
+    margin-top: 50rpx;
     width: 100%;
-    display:flex;
-    flex-direction:row;
+    display: flex;
+    flex-direction: row;
     justify-content: center;
     margin-bottom: 80rpx;
 }
 
-.logo{
-    width:200rpx;
+.logo {
+    width: 200rpx;
     height: 72rpx;
+}
+
+.spu-bottom {
+    width: 100%;
+    margin-top: 20rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 30rpx;
+    background-color: #ffffff;
+    box-sizing:border-box
+}
+
+.title-spu-bottom {
+    width: 690rpx;
+    height: 70rpx;
+    margin-bottom: 38rpx;
 }

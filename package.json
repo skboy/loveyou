@@ -9,6 +9,6 @@
   "author": "sk",
   "license": "ISC",
   "dependencies": {
-    "lin-ui": "^0.7.5"
+    "lin-ui": "^0.8.3"
   }
 }

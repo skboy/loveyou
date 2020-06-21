@@ -20,6 +20,7 @@ class Theme {
                 names
             }
         })
+
     }
 
     getHomeLocationA() {

@@ -33,6 +33,16 @@ class Cart {
         this._refreshStorage()
         return this._getCartData()
     }
+
+    getSkuCountBySkuId(skuId) {
+        const cartData = this._getCartData()
+        const item = cartData.items.find(item => item.skuId === skuId)
+        if (!item) {
+            console.error('在订单里寻找CartItem时不应当出现找不到的情况')
+        }
+        return item.count
+    }
+
     getSkuIds(){
         const cartData=this._getCartData()
         if(cartData.items.length===0){
@@ -51,6 +61,20 @@ class Cart {
         })
         return checkedCartItems
 
+    }
+    //获取已经勾选的skuId
+    getCheckedSkuIds() {
+        const cartData = this._getCartData()
+        if (cartData.items.length === 0) {
+            return []
+        }
+        const skuIds = []
+        cartData.items.forEach(item => {
+            if (item.checked) {
+                skuIds.push(item.sku.id)
+            }
+        })
+        return skuIds
     }
     //改变购物车勾选状态
     checkItem(skuId) {

@@ -1,15 +1,26 @@
-<view wx:if="{{!isEmpty}}" class="container">
-    <block wx:for="{{cartItems}}" wx:key="index">
-        <s-cart-item  bind:itemdelete="onDeleteItem"
-                     bind:countfloat="onCountFloat"
-                      bind:itemcheck="onSingleCheck"
-                     cart-item="{{item}}">
-        </s-cart-item>
-    </block>
-</view>
-<view class="empty-container"wx:if="{{isEmpty}}">
-    <s-empty showBtn show text="购物车空空的,去逛逛吧" btn-text="去逛逛"></s-empty>
-</view>
+
+<scroll-view  bindscrolltolower="scrollToLower" style="height: {{h}}rpx" scroll-y>
+    <view wx:if="{{!isEmpty}}" class="container">
+        <block wx:for="{{cartItems}}" wx:key="index">
+            <s-cart-item bind:itemdelete="onDeleteItem"
+                         bind:countfloat="onCountFloat"
+                         bind:itemcheck="onSingleCheck"
+                         cart-item="{{item}}">
+            </s-cart-item>
+        </block>
+    </view>
+    <view class="empty-container" wx:if="{{isEmpty}}">
+        <s-empty showBtn show text="购物车空空的,去逛逛吧" btn-text="去逛逛"></s-empty>
+    </view>
+    <l-loadmore show
+                end-text="- skboy作品 -"
+                type="{{loadingType}}">
+    <view  class="spu-bottom" slot="content">
+        <image class="title-spu-bottom" src="/imgs/home/title@interest.png"></image>
+        <l-water-flow generic:l-water-flow-item="s-spu-preview"></l-water-flow>
+    </view>
+    </l-loadmore>
+</scroll-view>
 
 <view wx:if="{{!isEmpty}}" class="total-container">
     <view class="data-container">
@@ -30,4 +41,5 @@
         <text>结算 ( {{totalSkuCount}} )</text>
     </view>
 </view>
+
 <view style="height: 100rpx"></view>

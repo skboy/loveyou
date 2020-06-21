@@ -1,3 +1,11 @@
+/**
+ * @作者 7七月
+ * @微信公号 林间有风
+ * @开源项目 $ http://7yue.pro
+ * @免费专栏 $ http://course.7yue.pro
+ * @我的课程 $ http://imooc.com/t/4294850
+ * @创建时间 2019-10-29 05:48
+ */
 
 const CellStatus = {
     FORBIDDEN: 'forbidden',
@@ -39,6 +47,7 @@ const CouponOperate = {
     UNPICK: 'unpick'
 }
 
+
 const OrderStatus = {
     ALL: 0,
     UNPAID: 1,
@@ -46,6 +55,12 @@ const OrderStatus = {
     DELIVERED: 3,
     FINISHED: 4,
     CANCELED: 5,
+}
+
+const BannerItemType = {
+    SPU: 1,
+    THEME: 2,
+    SPU_LIST: 3
 }
 
 const OrderExceptionType = {
@@ -74,5 +89,6 @@ export {
     CouponStatus,
     CouponType,
     CouponOperate,
-    OrderStatus
+    OrderStatus,
+    BannerItemType
 }

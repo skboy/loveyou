@@ -5,6 +5,7 @@ import {Banner} from "../../models/banner";
 import {Category} from "../../models/category";
 import {Activity} from "../../models/activity";
 import {SpuPaging} from "../../models/spu-paging";
+import {CouponCenterType} from "../../core/enum";
 
 Page({
 
@@ -76,6 +77,12 @@ Page({
             themeH
         })
     },
+    onGoToCoupons(event) {
+        const name = event.currentTarget.dataset.aname
+        wx.navigateTo({
+            url: `/pages/coupon/coupon?name=${this.data.activityD.name}&type=${CouponCenterType.ACTIVITY}`
+        })
+    },
 
     onReachBottom: async function () {
         const data = await this.data.spuPaging.getMoreData()
@@ -88,16 +95,8 @@ Page({
                 loadingType:'end'
             })
         }
-    },
-
-    onPullDownRefresh: function () {
-
-    },
-
-
-    onShareAppMessage: function () {
-
     }
+
 })
 
 

@@ -26,7 +26,7 @@
 		}
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.10.4",
+	"libVersion": "2.11.2",
 	"appid": "wx1808177032e57fd5",
 	"projectname": "sk-shop",
 	"debugOptions": {
@@ -91,6 +91,7 @@
 					"id": -1,
 					"name": "购物车",
 					"pathName": "pages/cart/cart",
+					"query": "",
 					"scene": null
 				}
 			]
