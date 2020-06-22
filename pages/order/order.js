@@ -4,6 +4,8 @@ import {OrderItem} from "../../models/order-item";
 import {ShoppingWay} from "../../core/enum";
 import {Order} from "../../models/order";
 import {Sku} from "../../models/sku";
+import {Coupon} from "../../models/coupon";
+import {CouponBO} from "../../models/coupon-bo";
 
 const cart = new Cart()
 Page({
@@ -58,7 +60,15 @@ Page({
         })
         return
       }
-
+        const coupons = await Coupon.getMySelfWithCategory()
+        console.log(coupons)
+        const couponBOList = this.packageCouponBOList(coupons, order)
+        this.setData({
+            orderItems,
+            couponBOList
+           // totalPrice: order.getTotalPrice(),
+          //  finalTotalPrice: order.getTotalPrice()
+        })
     },
     // 同步最新的SKU数据
     async getCartOrderItems(skuIds) {
@@ -75,6 +85,15 @@ Page({
       })
 
     },
+
+    packageCouponBOList(coupons, order) {
+        return coupons.map(coupon => {
+            const couponBO = new CouponBO(coupon)
+          //  couponBO.meetCondition(order)
+            return couponBO
+        })
+    },
+
     /**
      * 生命周期函数--监听页面初次渲染完成
      */

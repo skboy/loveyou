@@ -16,9 +16,10 @@ Page({
      */
     onLoad: async function (options) {
 
-      const aName = options.name
-      const type = options.type
-      let coupons
+        const aName = options.name
+        const type = options.type
+        const cid = options.cid
+        let coupons
 
         if (type === CouponCenterType.ACTIVITY) {
             const activity = await Activity.getActivityWithCoupon(aName)

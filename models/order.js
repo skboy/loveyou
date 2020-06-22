@@ -32,6 +32,17 @@ class Order{
             throw new OrderException('服务器返回订单商品数量与实际不相符，可能是有商品已下架', OrderExceptionType.NOT_ON_SALE)
         }
     }
+    getTotalPriceByCategoryIdList(categoryIdList) {
+        if (categoryIdList.length === 0) {
+            return 0
+        }
+        // 衣服、鞋子、书籍
+        const price = categoryIdList.reduce((pre, cur) => {
+            const eachPrice = this.getTotalPriceEachCategory(cur)
+            return accAdd(pre, eachPrice)
+        }, 0);
+        return price
+    }
 }
 export {
     Order
