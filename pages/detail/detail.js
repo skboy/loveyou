@@ -35,7 +35,6 @@ Page({
     onGoToCouponCenter(event) {
         const type = CouponCenterType.SPU_CATEGORY
         const cid = this.data.spu.category_id
-        console.log(cid)
         wx.navigateTo({
             url: `/pages/coupon/coupon?cid=${cid}&type=${type}`
         })

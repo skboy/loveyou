@@ -69,7 +69,6 @@ class Http {
 
     static showError(error_code, serverError) {
         let tip
-        console.log(error_code)
 
         if (!error_code) {
             tip = codes[9999]

@@ -29,7 +29,6 @@ class CouponBO {
 
     meetCondition(order) {
         let categoryTotalPrice;
-
         if (this.wholeStore) {
             // 全场券无视适用分类
             categoryTotalPrice = order.getTotalPrice()

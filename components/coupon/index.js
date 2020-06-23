@@ -26,7 +26,6 @@ Component({
 
     observers: {
         'coupon': function (coupon) {
-            console.log(coupon)
             if (!coupon) {
                 return
             }
@@ -52,7 +51,6 @@ Component({
             let msg;
             try {
                 msg = await Coupon.collectCoupon(couponId)
-                console.log(msg)
             } catch (e) {
                 if (e.errorCode === 40006) {
                     this.setUserCollected()

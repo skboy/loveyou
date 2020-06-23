@@ -1,7 +1,7 @@
 // pages/order/order.js
 import {Cart} from "../../models/cart";
 import {OrderItem} from "../../models/order-item";
-import {ShoppingWay} from "../../core/enum";
+import {CouponOperate, ShoppingWay} from "../../core/enum";
 import {Order} from "../../models/order";
 import {Sku} from "../../models/sku";
 import {Coupon} from "../../models/coupon";
@@ -61,13 +61,12 @@ Page({
         return
       }
         const coupons = await Coupon.getMySelfWithCategory()
-        console.log(coupons)
         const couponBOList = this.packageCouponBOList(coupons, order)
         this.setData({
             orderItems,
-            couponBOList
-           // totalPrice: order.getTotalPrice(),
-          //  finalTotalPrice: order.getTotalPrice()
+            couponBOList,
+            totalPrice: order.getTotalPrice(),
+            finalTotalPrice: order.getTotalPrice()
         })
     },
     // 同步最新的SKU数据
@@ -76,6 +75,26 @@ Page({
       const skus = await Sku.getSkusByIds(skuIds)
       const orderItems = this.packageOrderItems(skus)
       return orderItems
+    },
+    onChooseCoupon(event) {
+        const couponObj = event.detail.coupon
+        const couponOperate = event.detail.operate
+
+        if (couponOperate === CouponOperate.PICK) {
+            this.data.currentCouponId = couponObj.id
+            const priceObj = CouponBO.getFinalPrice(this.data.order.getTotalPrice(), couponObj)
+            this.setData({
+                finalTotalPrice: priceObj.finalPrice,
+                discountMoney: priceObj.discountMoney
+            })
+        } else {
+            this.data.currentCouponId = null
+            this.setData({
+                finalTotalPrice: this.data.order.getTotalPrice(),
+                discountMoney: 0
+            })
+        }
+
     },
     //打包orderItem
     packageOrderItems(skus) {
@@ -89,7 +108,7 @@ Page({
     packageCouponBOList(coupons, order) {
         return coupons.map(coupon => {
             const couponBO = new CouponBO(coupon)
-          //  couponBO.meetCondition(order)
+            couponBO.meetCondition(order)
             return couponBO
         })
     },

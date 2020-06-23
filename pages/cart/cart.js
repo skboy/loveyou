@@ -103,7 +103,6 @@ Page({
     },
     //全选的勾选
     onCheckAll(event) {
-        console.log(event)
         const checked = event.detail.checked
         cart.checkAll(checked)
         this.setData({
