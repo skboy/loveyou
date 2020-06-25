@@ -21,7 +21,7 @@ Component({
     'orderItem':function (orderItem) {
       const specValues = orderItem.spec_values
       this.setData({
-        specValuesText:specValues?parseSpecValueArray(specValues):parseSpecValue(orderItem.specs)
+        specValuesText:specValues?parseSpecValue(specValues):parseSpecValue(orderItem.specs)
       })
     }
   },

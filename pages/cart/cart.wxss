@@ -158,7 +158,7 @@ page {
     align-items: center;
     padding-top: 30rpx;
     background-color: #ffffff;
-    box-sizing:border-box
+    box-sizing: border-box
 }
 
 .title-spu-bottom {

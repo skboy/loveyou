@@ -76,6 +76,17 @@ class Cart {
         })
         return skuIds
     }
+    //移出购物车
+    removeCheckedItems() {
+        const cartData = this._getCartData()
+        for (let i = 0; i < cartData.items.length; i++) {
+            if (cartData.items[i].checked) {
+                cartData.items.splice(i, 1)
+            }
+        }
+        this._refreshStorage()
+    }
+
     //改变购物车勾选状态
     checkItem(skuId) {
         const oldItem = this.findEqualItem(skuId)

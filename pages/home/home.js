@@ -84,6 +84,17 @@ Page({
         })
     },
 
+    onGoToBanner(event) {
+        const keyword = event.currentTarget.dataset.keyword
+        const type = event.currentTarget.dataset.type
+        Banner.gotoTarget(type, keyword)
+    },
+    onGoToTheme(event) {
+        const tName = event.currentTarget.dataset.tname
+        wx.navigateTo({
+            url: `/pages/theme/theme?tname=${tName}`
+        })
+    },
     onReachBottom: async function () {
         const data = await this.data.spuPaging.getMoreData()
         if(!data){

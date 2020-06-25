@@ -10,7 +10,8 @@
                 circular>
             <block wx:for="{{bannerB.items}}" wx:key="index">
                 <swiper-item>
-                    <image class="swiper" src="{{item.img}}"></image>
+                    <image data-type="{{item.type}}" data-keyword="{{item.keyword}}"
+                           bind:tap="onGoToBanner" class="swiper" src="{{item.img}}"></image>
                 </swiper-item>
             </block>
         </swiper>
@@ -24,13 +25,12 @@
                 wx:if="{{themeE.online}}">
         </s-spu-scroll>
 
-        <image src="{{themeF.entrance_img}}" class="quality"></image>
+        <image data-tname="t-3" bind:tap="onGoToTheme" src="{{themeF.entrance_img}}" class="quality"></image>
 
         <s-hot-list banner="{{bannerG}}"></s-hot-list>
 
 
-        <image src="{{themeH.entrance_img}}" class="fashion"></image>
-
+        <image data-tname="t-4" bind:tap="onGoToTheme" src="{{themeH.entrance_img}}" class="fashion"></image>
         <view class="spu-bottom">
             <image class="title-spu-bottom" src="/imgs/home/title@interest.png"></image>
             <l-water-flow generic:l-water-flow-item="s-spu-preview"></l-water-flow>

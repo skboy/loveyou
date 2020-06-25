@@ -1,5 +1,8 @@
 import {OrderException} from "../core/order-exception";
 import {accAdd} from "../utils/number";
+import {Http} from "../utils/http";
+import {OrderStatus} from "../core/enum";
+import {Paging} from "../utils/paging";
 
 class Order{
 
@@ -72,6 +75,71 @@ class Order{
         }
         return false
     }
+    getOrderSkuInfoList() {
+        return this.orderItems.map(item => {
+            return {
+                id: item.skuId,
+                count: item.count
+            }
+        })
+    }
+    static async postOrderToServer(orderPost) {
+        return await Http.request({
+            url: 'order',
+            method: 'POST',
+            data: orderPost,
+            throwError: true
+        })
+    }
+    static async getUnpaidCount() {
+        const orderPage = await Http.request({
+            url: `order/status/unpaid`,
+            data:{
+                start:0,
+                count:1
+            }
+        })
+        return orderPage.total
+    }
+    static async getPaidCount() {
+        const orderPage = await Http.request({
+            url: `order/by/status/${OrderStatus.PAID}`,
+            data:{
+                start:0,
+                count:1
+            }
+        })
+        return orderPage.total
+    }
+    static async getDeliveredCount() {
+        const orderPage = await Http.request({
+            url: `order/by/status/${OrderStatus.DELIVERED}`,
+            data: {
+                start:0,
+                count:1
+            }
+        })
+        return orderPage.total
+    }
+    static async getDetail(oid) {
+        return Http.request({
+            url: `order/detail/${oid}`
+        })
+    }
+    static getPagingByStatus(status) {
+        return new Paging({
+            url:`order/by/status/${status}`
+        })
+        // return Http.request({
+        // })
+    }
+
+    static getPagingUnpaid() {
+        return new Paging({
+            url:`order/status/unpaid`
+        })
+    }
+
 }
 export {
     Order

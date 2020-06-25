@@ -1,4 +1,6 @@
 // components/hot-list/index.js
+
+import {Banner} from "../../models/banner";
 Component({
   /**
    * 组件的属性列表
@@ -38,6 +40,18 @@ Component({
    * 组件的方法列表
    */
   methods: {
+    onGotToTheme(event) {
+      const tName = event.currentTarget.dataset.tname
+      console.log(tName)
+      wx.navigateTo({
+          url: `/pages/theme/theme?tname=${tName}`
+      })
+  },
 
+  onGotoDetail(event) {
+      const keyword = event.currentTarget.dataset.keyword
+      const type = event.currentTarget.dataset.type
+      Banner.gotoTarget(type, keyword)
+  }
   }
 })

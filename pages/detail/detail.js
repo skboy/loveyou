@@ -19,13 +19,13 @@ Page({
     onLoad: async function (options) {
         const pid = options.pid
         const spu = await Spu.getDetail(pid)
-       // const explain=await SaleExplain.getFixed()
+        const explain=await SaleExplain.getFixed()
         const coupons = await Coupon.getTop2CouponsByCategory(spu.category_id)
         const windowHeight =await getWindowHeightRpx()
         const h= windowHeight - 100
         this.setData({
             spu,
-        //    explain,
+            explain,
             h:h,
             coupons
         })
@@ -90,6 +90,12 @@ Page({
             //这里没判断购物车里这个sku的数量
             cart.addItem(cartItem)
             this.updateCartItemCount()
+        }
+
+        if(event.detail.orderWay === ShoppingWay.BUY){
+            wx.navigateTo({
+                url:`/pages/order/order?sku_id=${chosenSku.id}&count=${skuCount}&way=${ShoppingWay.BUY}`
+            })
         }
     },
     updateCartItemCount(){
